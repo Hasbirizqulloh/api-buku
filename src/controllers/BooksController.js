@@ -19,8 +19,20 @@ export const getBookById = async (req, res) => {
 };
 
 export const createBook = async (req, res) => {
-  const book = req.body;
-  const newBook = new Book(book);
+  const { judul, author, genre, description, year, publisher, pageCount, rating, status } = req.body;
+  const imagePath = 'https://' + req.get('host') + '/' + req.file.path.replace('\\', '/');
+  const newBook = new Book({
+    judul,
+    author,
+    genre,
+    description,
+    year,
+    publisher,
+    pageCount,
+    rating,
+    status,
+    coverImage: imagePath,
+  });
   try {
     await newBook.save();
     res.status(201).json(newBook);
